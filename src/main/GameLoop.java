@@ -8,7 +8,8 @@ public class GameLoop {
 
     public static HashSet<String> currentlyActiveKeys = new HashSet<>();
 
-    private static final long TICKS = 10_000_000; //How often game updates. default = 10_000_000 = 100fps; 1 second = 1_000_000_000;
+    private static final long TICKS = 10_000_000; //How often game updates. default = 10_000_000 = 100fps = 100ticks per sec;
+                                                    // 1 second = 1_000_000_000;
 
     public GameLoop(SetTheStage setTheStage) {
 
@@ -25,8 +26,9 @@ public class GameLoop {
     }
 
     private void gameTick(SetTheStage setTheStage) {
-        KeyBinder.detectKeyPresses();
+        KeyControls.detectKeyPresses();
         setTheStage.player1.movePlayer();
+        setTheStage.circle.setOpacity(setTheStage.player1.getTransparency());
         setTheStage.circle.relocate(setTheStage.player1.getX(),setTheStage.player1.getY());
 //        setTheStage.circle.setCenterX(setTheStage.player1.getX());
 //        setTheStage.circle.setCenterY(setTheStage.player1.getY());
