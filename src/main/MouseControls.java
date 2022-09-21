@@ -17,7 +17,7 @@ public class MouseControls {
     public void setX(double x) { this.x = x; }
     public void setY(double y) { this.y = y; }
 
-    public MouseControls(SetTheStage setTheStage) {
+    public MouseControls() {
         //this.setTheStage = setTheStage;
 
 //        setTheStage.scene.setOnMouseEntered(new EventHandler<MouseEvent>() {
@@ -25,17 +25,17 @@ public class MouseControls {
 //                System.out.println("Entered: "+event.getX()+", "+event.getY());
 //            }
 //        });
-        setTheStage.scene.setOnMousePressed(event -> {
+        SetTheStage.scene.setOnMousePressed(event -> {
             setX(event.getX());
             setY(event.getY());
 //                System.out.println("Pressed: "+event.getX()+", "+event.getY());
         });
-        setTheStage.scene.setOnMouseMoved(event -> {
+        SetTheStage.scene.setOnMouseMoved(event -> {
             setX(event.getX());
             setY(event.getY());
 //                System.out.println("Moved: "+event.getX()+", "+event.getY());
         });
-        setTheStage.scene.setOnMouseDragged(event -> {
+        SetTheStage.scene.setOnMouseDragged(event -> {
             setX(event.getX());
             setY(event.getY());
 //                System.out.println("Dragged: "+event.getX()+", "+event.getY());
