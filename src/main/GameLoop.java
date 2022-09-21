@@ -10,7 +10,7 @@ public class GameLoop {
 
     public static HashSet<String> currentlyActiveKeys = new HashSet<>();
 
-    private static final long TICKS = 40_000_000; //How often game updates. default = 10_000_000 = 100fps = 100ticks per sec;
+    private static final long TICKS = 10_000_000; //How often game updates. default = 10_000_000 = 100fps = 100ticks per sec;
                                                     // 1 second = 1_000_000_000;
 
     public GameLoop(SetTheStage setTheStage, GameBoard gameBoard, Circle circle) {

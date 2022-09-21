@@ -21,7 +21,7 @@ public class Player {
 
     private double velocityX = 0;
     private double velocityY = 0;
-    private final double MOVE = 4.5;// default 3
+    private final double MOVE = 2.5;// default 3
     private final double TRANSPARENCY_RATE = 0.02;
     private double transparency = 1.0;
 
