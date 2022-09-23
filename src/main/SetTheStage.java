@@ -14,14 +14,14 @@ public class SetTheStage extends Application {
 
     //Goal: Make a game like Terraria
     //Todo List
-    //1. find faster way to display game board
+    //1.
 
     public static final String APPLICATION_NAME = "JavaFX Application";
-    public static final int SCREEN_WIDTH = 600;
-    public static final int SCREEN_HEIGHT = 400;
+    public static final int SCREEN_WIDTH = 1000;//600
+    public static final int SCREEN_HEIGHT = 600;//400
     public static final int RATIO_TILE_TO_PIXELS = 16; //1 chunk on map = 16 pixels
-    public static final int GAME_BOARD_WIDTH = 160;//60
-    public static final int GAME_BOARD_HEIGHT = 120;//40
+    public static final int GAME_BOARD_WIDTH = 1000;//60
+    public static final int GAME_BOARD_HEIGHT = 1000;//40
 
     public Player player1 = new Player();
     public static Group mainGroup = new Group();

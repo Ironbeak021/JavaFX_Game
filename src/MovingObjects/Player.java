@@ -21,14 +21,14 @@ public class Player {
 
     private double velocityX = 0;
     private double velocityY = 0;
-    private final double MOVE = 2.5;// default 3
+    private final double MOVE = 6;// default 3
     private final double TRANSPARENCY_RATE = 0.02;
     private double transparency = 1.0;
 
     public final int SIZE_WIDTH = 12;
     public final int SIZE_HEIGHT = 12;
-    public final int GAMEBOARD_STARTING_COORDS_X = 130;
-    public final int GAMEBOARD_STARTING_COORDS_Y = 130;
+    public final int GAMEBOARD_STARTING_COORDS_X = 1000;
+    public final int GAMEBOARD_STARTING_COORDS_Y = 400;
 
     //Getters
     public double getVelocityX() { return velocityX; }

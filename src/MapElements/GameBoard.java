@@ -4,18 +4,25 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import main.SetTheStage;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-
 public class GameBoard {
 
     //private final int MAX_TILE_TYPES = 20;
 
-    public int[][] getGameBoardTilesArray() {
+    public static int getGameBoardTilesArray(int x, int y) {
+        try {
+            return gameBoardTilesArray[x][y];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Error Caught: ArrayIndexOutOfBoundsException; GameBoard class");
+            System.out.println(x + ", " + y + "; Bigger than, " +
+                    getGameBoardTilesArray().length + ", " + getGameBoardTilesArray()[0].length);
+            return 1;
+        }
+    }
+    public static int[][] getGameBoardTilesArray() {
         return gameBoardTilesArray;
     }
 
-    public void setGameBoardTilesArray(int x, int y, int tileType) throws ArrayIndexOutOfBoundsException {
+    public static void setGameBoardTilesArray(int x, int y, int tileType) {
         try {
             gameBoardTilesArray[x][y] = tileType;
         } catch (ArrayIndexOutOfBoundsException e) {
@@ -25,39 +32,53 @@ public class GameBoard {
         }
     }
 
-    private final int[][] gameBoardTilesArray = new int
+    private static final int[][] gameBoardTilesArray = new int
             [SetTheStage.GAME_BOARD_WIDTH][SetTheStage.GAME_BOARD_HEIGHT];
     //0-10 = non-boundary tile
     //10+ = boundary tile
 
     public GameBoard(SetTheStage setTheStage) {
+        new MapGeneration();
+        initializeGameBoard();
         paintGameBoard(setTheStage);
+    }
+
+    private void initializeGameBoard() {
+        int totalX = getGameBoardTilesArray().length;
+        for (int x = 0; x < getGameBoardTilesArray().length ;x++) {
+            if (x % (int)(totalX/20) == 0) {
+                System.out.println("Generation 1: " + (int)(((double)x/totalX)*100) +"%");
+            }
+            for (int y = 0; y < getGameBoardTilesArray()[0].length ;y++) {
+                setGameBoardTilesArray(x, y, MapGeneration.generation(x, y, getGameBoardTilesArray()));
+            }
+        }
+        System.out.println("Generation 1: 100%\n");
+
+        for (int i = 0; i < 2; i++) {
+            MapGeneration.fillInHolesBlockTypes(getGameBoardTilesArray());
+        }
     }
 
     public void paintGameBoard(SetTheStage setTheStage) {
         SetTheStage.tileGroup.getChildren().clear();
 
-        try {
-            Image image = new Image(new FileInputStream("textures/ground/Grass_3.png"));
+        for (int x = tileOutsideScreenMin((int)setTheStage.player1.getGameBoardCoordsX());
+             x < tileOutsideScreenMax((int)setTheStage.player1.getGameBoardCoordsX() +
+                             SetTheStage.GAME_BOARD_WIDTH * SetTheStage.RATIO_TILE_TO_PIXELS,
+                     SetTheStage.SCREEN_WIDTH);
+             x+=SetTheStage.RATIO_TILE_TO_PIXELS) {
 
-            for (int x = tileOutsideScreenMin((int)setTheStage.player1.getGameBoardCoordsX());
-                 x < tileOutsideScreenMax((int)setTheStage.player1.getGameBoardCoordsX() +
-                                 SetTheStage.GAME_BOARD_WIDTH * SetTheStage.RATIO_TILE_TO_PIXELS,
-                         SetTheStage.SCREEN_WIDTH);
-                 x+=SetTheStage.RATIO_TILE_TO_PIXELS) {
+            for (int y = tileOutsideScreenMin((int)setTheStage.player1.getGameBoardCoordsY());
+                 y < tileOutsideScreenMax((int)setTheStage.player1.getGameBoardCoordsY() +
+                                 SetTheStage.GAME_BOARD_HEIGHT * SetTheStage.RATIO_TILE_TO_PIXELS,
+                         SetTheStage.SCREEN_HEIGHT);
+                 y+=SetTheStage.RATIO_TILE_TO_PIXELS) {
 
-                for (int y = tileOutsideScreenMin((int)setTheStage.player1.getGameBoardCoordsY());
-                     y < tileOutsideScreenMax((int)setTheStage.player1.getGameBoardCoordsY() +
-                                     SetTheStage.GAME_BOARD_HEIGHT * SetTheStage.RATIO_TILE_TO_PIXELS,
-                             SetTheStage.SCREEN_HEIGHT);
-                     y+=SetTheStage.RATIO_TILE_TO_PIXELS) {
-                    //setGameBoardTilesArray(x, y, 3);
-                    paintImageTile(x, y, image);
-                }
+                paintImageTile(x, y, MapGeneration.tileType(getGameBoardTilesArray(
+                        (x-(int)setTheStage.player1.getGameBoardCoordsX())/SetTheStage.RATIO_TILE_TO_PIXELS,
+                        (y-(int)setTheStage.player1.getGameBoardCoordsY())/SetTheStage.RATIO_TILE_TO_PIXELS)));
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            System.out.println("Error Caught: FileNotFoundException; GameBoard class");
         }
     }
     private int tileOutsideScreenMin(int temp) {
